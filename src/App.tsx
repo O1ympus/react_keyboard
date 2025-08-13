@@ -2,13 +2,11 @@ import React from 'react';
 
 interface State {
   pressedKey: string;
-  message: string;
 }
 
 export class App extends React.Component {
   state: Readonly<State> = {
     pressedKey: '',
-    message: '',
   };
 
   handleKeyPressing = (event: KeyboardEvent) => {
@@ -20,24 +18,20 @@ export class App extends React.Component {
     document.addEventListener('keyup', this.handleKeyPressing);
   }
 
-  componentDidUpdate(_prevProps: {}, prevState: State) {
-    if (prevState.pressedKey !== this.state.pressedKey) {
-      this.setState({
-        message: `The last pressed key is [${this.state.pressedKey}]`,
-      });
-    }
-  }
-
   componentWillUnmount() {
     document.removeEventListener('keyup', this.handleKeyPressing);
   }
 
   render() {
-    const { message } = this.state;
+    const { pressedKey } = this.state;
 
     return (
       <div className="App">
-        <p className="App__message">{message}</p>
+        <p className="App__message">
+          {pressedKey
+            ? `The last pressed key is [${pressedKey}]`
+            : 'Nothing was pressed yet'}
+        </p>
       </div>
     );
   }
